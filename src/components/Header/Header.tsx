@@ -96,11 +96,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { closeDrawer, openDrawer } from "../../reducers/leftSection";
 import { useUtils } from "../../hooks/utils";
 import ChevronOutline from "../../icons/ChevronOutline";
-import SettingsIconSolid from "../../icons/SettingsIconSolid";
-import HomeIconOutline from "../../icons/HomeIconOutline";
-import AccountIcon from "../../icons/AccountIcon";
-import SvgAccount from "../../icons/Account";
-import SettingsIcon from "../../icons/SettingsIcon";
 
 const Header = () => {
   const drawerOpen = useAppSelector((state) => state.leftSection.drawOpen);
@@ -152,19 +147,11 @@ const Header = () => {
         <SearchBar />
         <div className="justify-end w-[260px] h-full hidden desktopMode:flex">
           <div className="flex flex-row items-center">
-            
             <div>
-              <a
-                onClick={() => navigate("/home")}
-                className="cursor-pointer"
-              >
-                <SettingsIcon className="w-8 h-8 mr-4" />
-              </a>
-            </div>
-            <div>
-              <a
+              <button
+                type="button"
                 onClick={() => navigate("/settings")}
-                className="cursor-pointer"
+                className="cursor-pointer bg-transparent border-0 p-0"
               >
                 <div className="w-12 h-12 rounded-full overflow-hidden border border-gray-200">
                   <img 
@@ -173,7 +160,7 @@ const Header = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-              </a>
+              </button>
             </div>
           </div>
         </div>

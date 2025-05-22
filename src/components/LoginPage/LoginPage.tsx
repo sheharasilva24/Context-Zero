@@ -22,6 +22,8 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
   const [mode, setMode] = useState<"login" | "create" | "reset">("login");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showVerifyPassword, setShowVerifyPassword] = useState(false);
   const [attemptingLogin, setAttemptingLogin] = useState(true);
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [error, setError] = useState("");
@@ -30,6 +32,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const lastSentPassowordReset = useRef(0);
   const lastSentEmailVerification = useRef(0);
+  
 
   const attemptLoginWithToken = useCallback(async () => {
     setAttemptingLogin(true);
@@ -212,7 +215,7 @@ const LoginPage = () => {
       if (password.length) {
         if (password.length < 6) {
           return "Password must be at least 6 characters";
-        } else if (password.length > 256) {
+        } if (password.length > 256) {
           return "Password must be less than 256 characters";
         }
       }
@@ -230,9 +233,11 @@ const LoginPage = () => {
 
         if (email.length < 3) {
           return "Email must be at least 3 characters";
-        } else if (email.length > 320) {
+        }
+        if (email.length > 320) {
           return "Email must be less than 320 characters";
-        } else if (!isValidEmail) {
+        }
+        if (!isValidEmail) {
           return "Email is invalid";
         }
       }
@@ -257,7 +262,7 @@ const LoginPage = () => {
   if (attemptingLogin) {
     return (
       <div>
-        <div className="w-screen dynamic-height flex justify-center items-center">
+        <div className="w-screen dynamic-height flex justify-center items-center p-4">
           <div>
             <Spinner />
           </div>
@@ -268,26 +273,26 @@ const LoginPage = () => {
 
   return (
     <div>
-      <div className="bg-[#F4F4F6] w-screen dynamic-height flex justify-center items-center">
-      <div className="flex justify-center items-center">
-            <div className="flex items-center justify-center  p-3 ">
-              {!loadingLogin && (
-                <img src="/images/icon.png" alt="logo" className="w-[450px]" />
-              )}
-              {loadingLogin && <Spinner />}
-            </div>
+      <div className="bg-[#F4F4F6] w-screen dynamic-height flex flex-col md:flex-row justify-center items-center p-4">
+        <div className="flex justify-center items-center mb-6 md:mb-0 md:mr-6">
+          <div className="flex items-center justify-center p-3">
+            {!loadingLogin && (
+              <img src="/images/icon.png" alt="logo" className="w-full max-w-[250px] sm:max-w-[350px] md:max-w-[450px]" />
+            )}
+            {loadingLogin && <Spinner />}
           </div>
-        <div className="rounded-md shadow-lg bg-white p-10 relative w-[90%] h-[50%] sm:w-[500px] animate-height align">
+        </div>
+        <div className="rounded-md shadow-lg bg-white p-6 sm:p-8 md:p-10 relative w-[95%] max-w-[500px] animate-height">
           
           <form onSubmit={onSubmit}>
-            <p className="text-[#212B36] font-medium text-[25px] mb-[30px] text-center mt-[20%]">
+            <p className="text-[#212B36] font-medium text-xl sm:text-2xl md:text-[25px] mb-5 sm:mb-[30px] text-center mt-4 sm:mt-[10%] md:mt-[20%]">
               {headerTitle}
             </p>
             {/* Email Address */}
             <input
               type="text"
               placeholder="Email address"
-              className="w-full h-[48px] pl-[12px] pr-[12px] text-black border border-[#18181B] rounded-[5px] outline-none text-[15px]"
+              className="w-full h-[48px] pl-[12px] pr-[12px] text-black border border-[#18181B] rounded-[5px] outline-none text-sm sm:text-[15px]"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
@@ -296,34 +301,81 @@ const LoginPage = () => {
             {(mode === "login" || mode === "create") && (
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Password"
-                  className="w-full h-[48px] pl-[12px] pr-[70px] text-black border border-[#18181B] rounded-[5px] outline-none text-[15px] mt-4"
+                  className="w-full h-[48px] pl-[12px] pr-[140px] text-black border border-[#18181B] rounded-[5px] outline-none text-sm sm:text-[15px] mt-4"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
                 />
-                {mode === "login" && (
-                  <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center">
-                    <a
-                      className="text-[#18181B] text-[15px] font-medium no-underline mr-2 mt-4"
+                <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center mt-4">
+                  <div className="flex items-center justify-center">
+                    <button
+                      type="button"
+                      className="text-[#18181B] p-2 cursor-pointer"
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <title>Hide password</title>
+                          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                          <line x1="1" y1="1" x2="23" y2="23" />
+                        </svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <title>Show password</title>
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                  {mode === "login" && (
+                    <button
+                      type="button"
+                      className="text-[#18181B] text-sm sm:text-[15px] font-medium no-underline ml-1 pr-2"
                       onClick={() => setMode("reset")}
                     >
                       Forgot?
-                    </a>
-                  </div>
-                )}
+                    </button>
+                  )}
+                </div>
               </div>
             )}
 
             {/* Verify Password */}
             {mode === "create" && (
-              <input
-                type="password"
-                placeholder="Verify Password"
-                className="w-full h-[48px] pl-[12px] pr-[12px] text-black border border-[#18181B] rounded-[5px] outline-none text-[15px] mt-4"
-                onChange={(e) => setVerifyPassword(e.target.value)}
-                value={verifyPassword}
-              />
+              <div className="relative">
+                <input
+                  type={showVerifyPassword ? "text" : "password"}
+                  placeholder="Verify Password"
+                  className="w-full h-[48px] pl-[12px] pr-[70px] text-black border border-[#18181B] rounded-[5px] outline-none text-sm sm:text-[15px] mt-4"
+                  onChange={(e) => setVerifyPassword(e.target.value)}
+                  value={verifyPassword}
+                />
+                <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center pr-2 mt-4">
+                  <button
+                    type="button"
+                    className="text-[#18181B] p-2 cursor-pointer"
+                    onClick={() => setShowVerifyPassword(!showVerifyPassword)}
+                    aria-label={showVerifyPassword ? "Hide verify password" : "Show verify password"}
+                  >
+                    {showVerifyPassword ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <title>Hide verify password</title>
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                        <line x1="1" y1="1" x2="23" y2="23" />
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <title>Show verify password</title>
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
             )}
 
             <div className="flex justify-center items-center mt-4">
@@ -333,7 +385,7 @@ const LoginPage = () => {
                 disabled={
                   isSubmitDisabled || loadingLogin || validationError !== ""
                 }
-                className="bg-[#18181B] border border-[#18181B] hover:bg-[#404040] rounded-[5px] text-white text-[15px] font-medium cursor-pointer py-2 px-4 disabled:opacity-100 disabled:cursor-not-allowed"
+                className="bg-[#18181B] border border-[#18181B] hover:bg-[#404040] rounded-[5px] text-white text-sm sm:text-[15px] font-medium cursor-pointer py-2 px-4 w-full sm:w-auto disabled:opacity-100 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -341,23 +393,25 @@ const LoginPage = () => {
               {mode === "login" && (
                 <p className="text-center text-[#000000] text-[15px] font-normal">
                   Don't have an account? {" "}
-                  <a
+                  <button
                     onClick={() => setMode("create")}
-                    className="text-[#717070] text-[15px] font-medium no-underline"
+                    className="text-[#717070] text-sm sm:text-[15px] font-medium no-underline bg-transparent border-none p-0 cursor-pointer"
+                    type="button"
                   >
                     Create account
-                  </a>
+                  </button>
                 </p>
               )}
               {(mode === "create" || mode === "reset") && (
                 <p className="text-center text-[#000000] text-[15px] font-normal">
                   Back to{" "}
-                  <a
+                  <button
                     onClick={() => setMode("login")}
-                    className="text-[#7a7a7a] text-[15px] font-medium no-underline"
+                    className="text-[#7a7a7a] text-sm sm:text-[15px] font-medium no-underline bg-transparent border-none p-0 cursor-pointer"
+                    type="button"
                   >
                     Login
-                  </a>
+                  </button>
                 </p>
               )}
             </div>
@@ -365,7 +419,7 @@ const LoginPage = () => {
               <div className="mt-4">
                 <div className="flex justify-center items-center">
                   <AlertIcon className="w-[20px] text-red-600 mr-2" />
-                  <p className="text-[#18181B] text-[15px]">
+                  <p className="text-[#18181B] text-sm sm:text-[15px]">
                     {validationError || error}
                   </p>
                 </div>
