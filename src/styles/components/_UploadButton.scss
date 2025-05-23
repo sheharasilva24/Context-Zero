@@ -1,0 +1,212 @@
+// Upload Button Styles
+.upload-button {
+  &-menu {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 8px 0;
+    min-width: 220px;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    transform-origin: bottom right;
+    transition: all 0.2s ease-out;
+    z-index: 30;
+    
+    &.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    &-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      font-size: 14px;
+      color: #5f6368;
+      cursor: pointer;
+      transition: background-color 0.15s;
+      border-radius: 4px;
+      margin: 0 4px;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      svg {
+        margin-right: 12px;
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  &-main {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 30;
+    
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+      background-color: var(--primary-hover-color);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    svg {
+      transition: transform 0.3s ease;
+    }
+
+    &.active svg {
+      transform: rotate(45deg);
+    }
+  }
+
+  // Ripple effect
+  &-ripple {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+  }
+}
+
+// Upload feedback animation
+.upload-progress-animation {
+  position: fixed;
+  bottom: 32px;
+  left: 32px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  max-width: 320px;
+  z-index: 1000;
+  animation: slide-in 0.3s ease forwards;
+  
+  &-icon {
+    margin-right: 12px;
+    color: var(--primary-color);
+  }
+  
+  &-text {
+    flex: 1;
+    
+    h4 {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    &-progress {
+      height: 4px;
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 2px;
+      overflow: hidden;
+      
+      &-bar {
+        height: 100%;
+        background-color: var(--primary-color);
+        transition: width 0.3s ease;
+      }
+    }
+  }
+}
+
+@keyframes ripple {
+  from {
+    opacity: 1;
+    transform: scale(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// For drag & drop uploads
+.drag-upload-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  &-content {
+    background-color: white;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    
+    .active & {
+      transform: scale(1);
+    }
+    
+    svg {
+      width: 64px;
+      height: 64px;
+      color: var(--primary-color);
+      margin-bottom: 16px;
+    }
+    
+    h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    p {
+      color: #5f6368;
+      margin-bottom: 0;
+    }
+  }
+}

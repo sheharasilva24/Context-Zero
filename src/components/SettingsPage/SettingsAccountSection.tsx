@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import SettingsChangePasswordPopup from "./SettingsChangePasswordPopup";
 import { toast } from "react-toastify";
 import { logoutAPI, resendVerifyEmailAPI } from "../../api/userAPI";
