@@ -143,7 +143,7 @@ const LeftSection = ({
     <div
       ref={wrapperRef}
       className={classNames(
-        "p-6 fixed desktopMode:relative border-r w-[270px] min-w-[270px] bg-white h-full z-20 desktopMode:z-0 animate-movement mt-1.5",
+        "p-6 fixed desktopMode:relative border-r w-[270px] min-w-[270px] bg-white h-full z-20 desktopMode:z-0 animate-movement mt-14",
         {
           "-left-[270px] desktopMode:left-0": !leftSectionOpen,
           "left-0": leftSectionOpen,
@@ -152,16 +152,18 @@ const LeftSection = ({
     >
       <div className="flex flex-col h-full select-none text-sm">
         <div>
-          <div className="relative mb-7 ">
-            <a
+          <div className="relative mb-7" style={{ isolation: 'isolate' }}>
+            <button
+              id="add-new-button"
               onClick={openDropdown}
-              className="flex items-center justify-center bg-primary hover:bg-primary-hover no-underline rounded-md px-2 py-2.5"
+              type="button"
+              className="flex items-center justify-between w-full bg-primary hover:bg-primary-hover transition-colors duration-200 no-underline rounded-md px-4 py-3 shadow-md"
             >
-              <p className="m-0 w-full text-center text-white font-medium text-sm">
+              <p className="m-0 text-white font-semibold text-sm">
                 ADD NEW
               </p>
-              <ChevronSolid className="text-white mr-1" />
-            </a>
+              <ChevronSolid className={`text-white transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />  
+            </button>
             <AddNewDropdown
               closeDropdown={closeDropdown}
               isDropdownOpen={isDropdownOpen}
@@ -213,32 +215,6 @@ const LeftSection = ({
         >
           <TrashIcon className="w-6 h-6" />
           <p className="ml-2.5">Trash</p>
-        </div>
-
-        <div
-          className={classNames(
-            "pl-2 mr-5 py-2 hover:bg-white-hover rounded-md cursor-pointer animate flex flex-row items-center w-full",
-            isSettings || isHomeFolder
-              ? "text-primary bg-white-hover"
-              : "text-gray-primary"
-          )}
-          onClick={goHome}
-        >
-          <SettingsIcon className="w-6 h-6" />
-          <p className="ml-3">Settings</p>
-        </div>
-
-        <div
-          className={classNames(
-            "pl-2 mr-5 py-2 hover:bg-white-hover rounded-md cursor-pointer animate flex flex-row items-center w-full",
-            isHome || isHomeFolder
-              ? "text-gray-primary"
-              : "text-gray-primary"
-          )}
-          onClick={goHome}
-        >
-          <SvgChart className="w-6 h-6" />
-          <p className="ml-3">Insights</p>
         </div>
 
         <button 

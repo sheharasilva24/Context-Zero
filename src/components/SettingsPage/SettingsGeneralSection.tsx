@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { usePreferenceSetter } from "../../hooks/preferenceSetter";
-import { ArrowUpDown, FileText, ListOrdered, MousePointerClick, Reload } from "../../icons";
+import { ArrowUpDown, FileText, ListOrdered, MousePointerClick } from "../../icons";
 
 const SettingsPageGeneral = () => {
   const [listViewStyle, setListViewStyle] = useState("list");
   const [sortBy, setSortBy] = useState("date");
   const [orderBy, setOrderBy] = useState("descending");
   const [singleClickFolders, setSingleClickFolders] = useState("disabled");
-  const [loadThumbnails, setLoadThumbnails] = useState("enabled");
+
   const { setPreferences } = usePreferenceSetter();
 
   const fileListStyleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -58,17 +58,7 @@ const SettingsPageGeneral = () => {
     setPreferences();
   };
 
-  const loadThumbnailsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    setLoadThumbnails(value);
 
-    if (value === "disabled") {
-      window.localStorage.setItem("not-load-thumbnails", "true");
-    } else {
-      window.localStorage.removeItem("not-load-thumbnails");
-    }
-    setPreferences();
-  };
 
   useEffect(() => {
     const listModeLocalStorage = window.localStorage.getItem("list-mode");
@@ -85,26 +75,20 @@ const SettingsPageGeneral = () => {
     );
     const singleClickFoldersEnabled = singleClickFoldersLocalStorage === "true";
 
-    const loadThumbnailsLocalStorage = window.localStorage.getItem(
-      "not-load-thumbnails"
-    );
-    const loadThumbnailsDisabled = loadThumbnailsLocalStorage === "true";
-
     setListViewStyle(listModeEnabled ? "list" : "grid");
     setSortBy(sortByNameEnabled ? "name" : "date");
     setOrderBy(orderByAscendingEnabled ? "ascending" : "descending");
     setSingleClickFolders(singleClickFoldersEnabled ? "enabled" : "disabled");
-    setLoadThumbnails(loadThumbnailsDisabled ? "disabled" : "enabled");
   }, []);
 
   return (
-    <div className="shadow-xl">
+    <div>
       <div>
-      <div className="bg-white-hover p-3 flex items-center w-full rounded-md mt-20 border border-black-400/70">
-        <p className="text-base font-bold">General</p>
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-lg font-bold text-gray-800">General Settings</h3>
       </div>
       <div>
-        <div className="px-3 py-4 flex flex-row justify-between items-center border-b border-gray-secondary">
+        <div className="py-4 flex flex-row justify-between items-center border-b border-gray-200">
          <div className="flex items-center">
           <FileText />
           <p className="text-gray-primary ml-2">File list style</p>
@@ -118,7 +102,7 @@ const SettingsPageGeneral = () => {
             <option value="list">List</option>
           </select>
         </div>
-        <div className="px-3 py-4 flex flex-row justify-between items-center border-b border-gray-secondary">
+        <div className="py-4 flex flex-row justify-between items-center border-b border-gray-200">
         <div className="flex items-center">
         <ArrowUpDown />
         <p className="text-gray-primary ml-2">Sort by</p>
@@ -132,7 +116,7 @@ const SettingsPageGeneral = () => {
             <option value="name">Name</option>
           </select>
         </div>
-        <div className="px-3 py-4 flex flex-row justify-between items-center border-b border-gray-secondary">
+        <div className="py-4 flex flex-row justify-between items-center border-b border-gray-200">
         <div className="flex items-center">
         <ListOrdered />
         <p className="text-gray-primary ml-2">Order by</p>
@@ -146,7 +130,7 @@ const SettingsPageGeneral = () => {
             <option value="ascending">Ascending</option>
           </select>
         </div>
-        <div className="px-3 py-4 flex flex-row justify-between items-center border-b border-gray-secondary">
+        <div className="py-4 flex flex-row justify-between items-center border-b border-gray-200">
         <div className="flex items-center">
         <MousePointerClick />
         <p className="text-gray-primary ml-2">Single click to enter folders</p>
@@ -160,20 +144,7 @@ const SettingsPageGeneral = () => {
             <option value="enabled">Enabled</option>
           </select>
         </div>
-        <div className="px-3 py-4 flex flex-row justify-between items-center border-b border-gray-secondary">
-        <div className="flex items-center">
-        <Reload />
-        <p className="text-gray-primary ml-2">Load thumbnails</p>
-        </div>
-          <select
-            value={loadThumbnails}
-            onChange={loadThumbnailsChange}
-            className="text-sm font-medium appearance-none bg-white text-primary"
-          >
-            <option value="enabled">Enabled</option>
-            <option value="disabled">Disabled</option>
-          </select>
-        </div>
+
       </div>
     </div>
     </div>

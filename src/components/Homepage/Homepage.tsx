@@ -3,6 +3,8 @@ import MainSection from "../MainSection/MainSection";
 import Uploader from "../Uploader/Uploader";
 import { useAppSelector } from "../../hooks/store";
 import { ToastContainer } from "react-toastify";
+import UploadButton from "../UploadButton/UploadButton";
+import DragUploadZone from "../DragUploadZone/DragUploadZone";
 
 const Homepage = () => {
   const showUploader = useAppSelector(
@@ -17,6 +19,8 @@ const Homepage = () => {
           <MainSection />
           {showUploader && <Uploader />}
         </div>
+        <UploadButton />
+        <DragUploadZone />
       </div>
 
       <ToastContainer position="bottom-left" pauseOnFocusLoss={false} />

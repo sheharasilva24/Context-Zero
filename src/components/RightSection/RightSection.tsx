@@ -14,6 +14,7 @@ import TrashIcon from "../../icons/TrashIcon";
 import RenameIcon from "../../icons/RenameIcon";
 import { useActions } from "../../hooks/actions";
 import RestoreIcon from "../../icons/RestoreIcon";
+import getBackendURL from "../../utils/getBackendURL";
 
 const RightSection = memo(() => {
   const selectedItem = useAppSelector((state) => state.selected.mainSection);
@@ -94,6 +95,17 @@ const RightSection = memo(() => {
     return getFileExtension(selectedItem.file.filename);
   })();
 
+  const isImageFile = (() => {
+    if (!selectedItem?.file) return false;
+    return selectedItem.file.metadata.hasThumbnail;
+  })();
+  
+  // Import the getBackendURL function if it's not already imported
+  const imageUrl = (() => {
+    if (!selectedItem?.file || !isImageFile || !selectedItem.file.metadata.thumbnailID) return null;
+    return `${getBackendURL()}/file-service/thumbnail/${selectedItem.file.metadata.thumbnailID}`;
+  })();
+
   const reset = () => {
     dispatch(resetSelected());
   };
@@ -149,7 +161,20 @@ const RightSection = memo(() => {
                 onClick={reset}
               />
             </div>
-            <div className="p-6">
+            
+            {isImageFile && imageUrl && (
+              <div className="px-6 pt-4 pb-2">
+                <div className="w-full overflow-hidden rounded-md border border-gray-200 flex justify-center items-center bg-gray-50">
+                  <img 
+                    src={imageUrl} 
+                    alt={formattedName} 
+                    className="max-w-full object-contain max-h-[180px]" 
+                  />
+                </div>
+              </div>
+            )}
+            
+            <div className="p-6 pt-3">
               <p className="m-0 text-[#212b36] text-sm font-bold max-h-[90px] overflow-hidden text-ellipsis block break-all">
                 {formattedName}
               </p>
