@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import UploadFileIcon from '../../icons/UploadFileIcon';
 import { useUploader } from '../../hooks/files';
 
@@ -12,11 +11,6 @@ const DragUploadZone: React.FC = () => {
     // Function to handle file uploads
     const handleFiles = (files: FileList) => {
       if (!files || files.length === 0) return;
-      
-      const totalFiles = files.length;
-      if (totalFiles > 0) {
-        toast.info(`Uploading ${totalFiles} file${totalFiles > 1 ? 's' : ''}`);
-      }
       
       // Use the proper uploader hook to upload files to S3
       uploadFiles(files);

@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { useUploader } from '../../hooks/files';
 import UploadButtonMenu from './UploadButtonMenu';
-import { toast } from 'react-toastify';
 
 interface UploadButtonProps {
   className?: string;
@@ -23,11 +22,6 @@ const UploadButton: React.FC<UploadButtonProps> = ({ className = '' }) => {
   const handleFiles = (files: FileList) => {
     if (!files || files.length === 0) return;
     
-    const totalFiles = files.length;
-    if (totalFiles > 0) {
-      toast.info(`Uploading ${totalFiles} file${totalFiles > 1 ? 's' : ''}`);
-    }
-    
     // Use the proper uploader hook to upload files to S3
     uploadFiles(files);
   };
@@ -45,7 +39,6 @@ const UploadButton: React.FC<UploadButtonProps> = ({ className = '' }) => {
   
   const handleFolderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      toast.info('Uploading folder...');
       uploadFolder(e.target.files);
     }
     
