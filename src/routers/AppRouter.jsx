@@ -14,7 +14,7 @@ import DownloadPage from "../components/DownloadPage/DownloadPage";
 import VerifyEmailPage from "../components/VerifyEmailPage/VerifyEmailPage";
 import uuid from "uuid";
 import ResetPasswordPage from "../components/ResetPasswordPage/ResetPasswordPage";
-import SettingsPage from "../components/SettingsPage/SettingsPage";
+import SettingsPage from "../components/SettingsPage/EnhancedSettingsPage";
 import Homepage from "../components/Homepage/Homepage";
 import { usePreferenceSetter } from "../hooks/preferenceSetter";
 import useAccessTokenHandler from "../hooks/user";
