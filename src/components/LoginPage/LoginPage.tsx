@@ -32,7 +32,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const lastSentPassowordReset = useRef(0);
   const lastSentEmailVerification = useRef(0);
-  
 
   const attemptLoginWithToken = useCallback(async () => {
     setAttemptingLogin(true);
@@ -246,9 +245,12 @@ const LoginPage = () => {
     return "";
   })();
 
+  // Clear error when inputs change
   useEffect(() => {
-    setError("");
-  }, [email.length, password.length, verifyPassword.length]);
+    if (email || password || verifyPassword) {
+      setError("");
+    }
+  }, [email, password, verifyPassword]);
 
   useEffect(() => {
     const loggedIn = window.localStorage.getItem("hasPreviouslyLoggedIn");
@@ -259,59 +261,62 @@ const LoginPage = () => {
     }
   }, [attemptLoginWithToken]);
 
+  // Loading spinner when attempting login with token
   if (attemptingLogin) {
     return (
-      <div>
-        <div className="w-screen dynamic-height flex justify-center items-center p-4">
-          <div>
-            <Spinner />
-          </div>
-        </div>
+      <div className="w-screen h-screen flex justify-center items-center p-4 bg-[#F4F4F6]">
+        <Spinner />
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="bg-[#F4F4F6] w-screen dynamic-height flex flex-col md:flex-row justify-center items-center p-4">
-        <div className="flex justify-center items-center mb-6 md:mb-0 md:mr-6">
-          <div className="flex items-center justify-center p-3">
-            {!loadingLogin && (
-              <img src="/images/icon.png" alt="logo" className="w-full max-w-[250px] sm:max-w-[350px] md:max-w-[450px]" />
-            )}
-            {loadingLogin && <Spinner />}
-          </div>
+    <div className="bg-[#F4F4F6] w-screen h-screen flex justify-center items-center p-4">
+      <div className="flex flex-col items-center max-w-[500px] w-full">
+        {/* Logo above the form */}
+        <div className="flex justify-center items-center mb-6">
+          {!loadingLogin ? (
+            <img 
+              src="/images/icon.png" 
+              alt="Context Zero" 
+              className="w-auto h-[80px] object-contain transition-all duration-300" 
+            />
+          ) : (
+            <Spinner />
+          )}
         </div>
-        <div className="rounded-md shadow-lg bg-white p-6 sm:p-8 md:p-10 relative w-[95%] max-w-[500px] animate-height">
-          
+        
+        {/* Login Form */}
+        <div className="rounded-xl shadow-lg bg-white p-6 sm:p-8 md:p-10 w-full max-w-[500px] transition-all duration-300">
           <form onSubmit={onSubmit}>
-            <p className="text-[#212B36] font-medium text-xl sm:text-2xl md:text-[25px] mb-5 sm:mb-[30px] text-center mt-4 sm:mt-[10%] md:mt-[20%]">
+            <p className="text-[#212B36] font-medium text-xl sm:text-2xl md:text-[25px] mb-6 text-center">
               {headerTitle}
             </p>
+            
             {/* Email Address */}
             <input
               type="text"
               placeholder="Email address"
-              className="w-full h-[48px] pl-[12px] pr-[12px] text-black border border-[#18181B] rounded-[5px] outline-none text-sm sm:text-[15px]"
+              className="w-full h-[48px] pl-[14px] pr-[14px] text-black border border-[#E5E7EB] rounded-full outline-none text-sm sm:text-[15px] mb-4 focus:ring-2 focus:ring-gray-200 focus:border-transparent transition-all duration-200"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
 
             {/* Password */}
             {(mode === "login" || mode === "create") && (
-              <div className="relative">
+              <div className="relative mb-4">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
-                  className="w-full h-[48px] pl-[12px] pr-[140px] text-black border border-[#18181B] rounded-[5px] outline-none text-sm sm:text-[15px] mt-4"
+                  className="w-full h-[48px] pl-[14px] pr-[140px] text-black border border-[#E5E7EB] rounded-full outline-none text-sm sm:text-[15px] focus:ring-2 focus:ring-gray-200 focus:border-transparent transition-all duration-200"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
                 />
-                <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center mt-4">
+                <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center">
                   <div className="flex items-center justify-center">
                     <button
                       type="button"
-                      className="text-[#18181B] p-2 cursor-pointer"
+                      className="text-[#18181B] p-2 cursor-pointer transition-all duration-200 hover:text-gray-500"
                       onClick={() => setShowPassword(!showPassword)}
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
@@ -333,7 +338,7 @@ const LoginPage = () => {
                   {mode === "login" && (
                     <button
                       type="button"
-                      className="text-[#18181B] text-sm sm:text-[15px] font-medium no-underline ml-1 pr-2"
+                      className="text-[#18181B] text-sm sm:text-[15px] font-medium hover:text-gray-500 no-underline ml-1 pr-4 transition-all duration-200"
                       onClick={() => setMode("reset")}
                     >
                       Forgot?
@@ -345,18 +350,18 @@ const LoginPage = () => {
 
             {/* Verify Password */}
             {mode === "create" && (
-              <div className="relative">
+              <div className="relative mb-4">
                 <input
                   type={showVerifyPassword ? "text" : "password"}
                   placeholder="Verify Password"
-                  className="w-full h-[48px] pl-[12px] pr-[70px] text-black border border-[#18181B] rounded-[5px] outline-none text-sm sm:text-[15px] mt-4"
+                  className="w-full h-[48px] pl-[14px] pr-[70px] text-black border border-[#E5E7EB] rounded-full outline-none text-sm sm:text-[15px] focus:ring-2 focus:ring-gray-200 focus:border-transparent transition-all duration-200"
                   onChange={(e) => setVerifyPassword(e.target.value)}
                   value={verifyPassword}
                 />
-                <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center pr-2 mt-4">
+                <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center pr-4">
                   <button
                     type="button"
-                    className="text-[#18181B] p-2 cursor-pointer"
+                    className="text-[#18181B] p-2 cursor-pointer transition-all duration-200 hover:text-gray-500"
                     onClick={() => setShowVerifyPassword(!showVerifyPassword)}
                     aria-label={showVerifyPassword ? "Hide verify password" : "Show verify password"}
                   >
@@ -378,24 +383,27 @@ const LoginPage = () => {
               </div>
             )}
 
-            <div className="flex justify-center items-center mt-4">
-              <input
+            {/* Submit Button */}
+            <div className="mb-4 w-full">
+              <button
                 type="submit"
-                value={capitalize(mode)}
                 disabled={
                   isSubmitDisabled || loadingLogin || validationError !== ""
                 }
-                className="bg-[#18181B] border border-[#18181B] hover:bg-[#404040] rounded-[5px] text-white text-sm sm:text-[15px] font-medium cursor-pointer py-2 px-4 w-full sm:w-auto disabled:opacity-100 disabled:cursor-not-allowed"
-              />
+                className="bg-[#18181B] border-0 hover:bg-[#404040] rounded-full text-white text-sm sm:text-[15px] font-medium cursor-pointer py-3 w-full transition-all duration-200 shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {capitalize(mode)}
+              </button>
             </div>
 
-            <div className="mt-4">
+            {/* Account Links */}
+            <div className="mb-4">
               {mode === "login" && (
                 <p className="text-center text-[#000000] text-[15px] font-normal">
                   Don't have an account? {" "}
                   <button
                     onClick={() => setMode("create")}
-                    className="text-[#717070] text-sm sm:text-[15px] font-medium no-underline bg-transparent border-none p-0 cursor-pointer"
+                    className="text-[#717070] text-sm sm:text-[15px] font-medium hover:text-gray-900 no-underline bg-transparent border-none p-0 cursor-pointer transition-all duration-200"
                     type="button"
                   >
                     Create account
@@ -407,7 +415,7 @@ const LoginPage = () => {
                   Back to{" "}
                   <button
                     onClick={() => setMode("login")}
-                    className="text-[#7a7a7a] text-sm sm:text-[15px] font-medium no-underline bg-transparent border-none p-0 cursor-pointer"
+                    className="text-[#7a7a7a] text-sm sm:text-[15px] font-medium hover:text-gray-900 no-underline bg-transparent border-none p-0 cursor-pointer transition-all duration-200"
                     type="button"
                   >
                     Login
@@ -415,9 +423,11 @@ const LoginPage = () => {
                 </p>
               )}
             </div>
+            
+            {/* Error Messages */}
             {(validationError || error) && (
-              <div className="mt-4">
-                <div className="flex justify-center items-center">
+              <div className="mb-2">
+                <div className="flex justify-center items-center bg-red-50 p-2 rounded-lg">
                   <AlertIcon className="w-[20px] text-red-600 mr-2" />
                   <p className="text-[#18181B] text-sm sm:text-[15px]">
                     {validationError || error}

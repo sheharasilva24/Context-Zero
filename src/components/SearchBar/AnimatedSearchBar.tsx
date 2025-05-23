@@ -60,7 +60,7 @@ const AnimatedSearchBar = memo(() => {
         inputRef.current?.blur();
       }
     };
-    
+     
     document.addEventListener('mousedown', handleGlobalClick);
     return () => {
       document.removeEventListener('mousedown', handleGlobalClick);
