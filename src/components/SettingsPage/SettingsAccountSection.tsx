@@ -1,12 +1,10 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import SettingsChangePasswordPopup from "./SettingsChangePasswordPopup";
 import { toast } from "react-toastify";
 import { logoutAPI, resendVerifyEmailAPI } from "../../api/userAPI";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import ChevronOutline from "../../icons/ChevronOutline";
 import { LockClosed, Logout, Person } from "../../icons";
-import LockIcon from "../../icons/LockIcon";
 
 interface SettingsPageAccountProps {
   user: {
@@ -113,12 +111,12 @@ const SettingsPageAccount: React.FC<SettingsPageAccountProps> = ({
         />
       )}
 
-     <div className="shadow-xl">
-     <div className=" bg-white-hover p-3 flex items-center w-full rounded-md mt-20 border border-black-400/70">
-        <p className="text-base font-bold">Account</p>
+     <div>
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-lg font-bold text-gray-800">Account Settings</h3>
       </div>
       <div>
-        <div className="p-3 flex flex-row justify-between items-center border-b border-gray-secondary">
+        <div className="py-4 flex flex-row justify-between items-center border-b border-gray-200">
           <div className="flex items-center">
             <Person />
           <p className="text-gray-primary ml-2">Email</p>
@@ -127,10 +125,11 @@ const SettingsPageAccount: React.FC<SettingsPageAccountProps> = ({
           <p>{user.email}</p>
         </div>
         {"emailVerified" in user && !user.emailVerified && (
-          <div className="px-3 py-4 flex flex-row justify-between items-center border-b border-gray-secondary">
+          <div className="py-4 flex flex-row justify-between items-center border-b border-gray-200">
             <p className="text-gray-primary">Email not verified</p>
             {!user.emailVerified && (
               <button
+                type="button"
                 className="text-primary hover:text-primary-hover cursor-pointer"
                 onClick={resendEmailVerification}
               >
@@ -139,36 +138,39 @@ const SettingsPageAccount: React.FC<SettingsPageAccountProps> = ({
             )}
           </div>
         )}
-        <div className="px-3 py-4 flex flex-row justify-between items-center border-b border-gray-secondary">
+        <div className="py-4 flex flex-row justify-between items-center border-b border-gray-200">
         <div className="flex items-center">
           <LockClosed />
           <p className="text-gray-primary ml-2">Change password</p>
           </div>
           <button
+            type="button"
             className="text-primary hover:text-primary-hover cursor-pointer"
             onClick={() => setShowChangePasswordPopup(true)}
           >
             Change
           </button>
         </div>
-        <div className="px-3 py-4 flex flex-row justify-between items-center border-b border-gray-secondary">
+        <div className="py-4 flex flex-row justify-between items-center border-b border-gray-200">
         <div className="flex items-center">
           <Logout />
           <p className="text-gray-primary ml-2">Logout account</p>
           </div>
           <button
+            type="button"
             className="text-primary hover:text-primary-hover cursor-pointer"
             onClick={logoutClick}
           >
             Logout
           </button>
         </div>
-        <div className="px-3 py-4 flex flex-row justify-between items-center border-b border-gray-secondary">
+        <div className="py-4 flex flex-row justify-between items-center border-b border-gray-200">
         <div className="flex items-center">
         <Logout />
           <p className="text-gray-primary ml-2">Logout all sessions</p>
           </div>
           <button
+            type="button"
             className="text-primary hover:text-primary-hover cursor-pointer"
             onClick={logoutAllClick}
           >

@@ -2,14 +2,14 @@ import { useParams } from "react-router-dom";
 import { createFolderAPI } from "../../api/foldersAPI";
 import { useClickOutOfBounds } from "../../hooks/utils";
 import { showCreateFolderPopup } from "../../popups/folder";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { RefObject } from "react";
 import { useUploader } from "../../hooks/files";
 import UploadFileIcon from "../../icons/UploadFileIcon";
 import CreateFolderIcon from "../../icons/CreateFolderIcon";
 import FolderUploadIcon from "../../icons/FolderUploadIcon";
 import Swal from "sweetalert2";
 import { useFolders } from "../../hooks/folders";
-import classNames from "classnames";
 
 interface AddNewDropdownProps {
   closeDropdown: () => void;
@@ -102,11 +102,36 @@ const AddNewDropdown: React.FC<AddNewDropdownProps> = ({
     }
   }, []);
 
+  // Get the position of the button to properly position the dropdown
+  // Using useEffect to ensure this runs after DOM is ready
+  useEffect(() => {
+    if (isDropdownOpen) {
+      const handlePositioning = () => {
+        const dropdown = document.getElementById('add-new-dropdown');
+        const button = document.getElementById('add-new-button');
+        if (dropdown && button) {
+          const buttonRect = button.getBoundingClientRect();
+          dropdown.style.top = `${buttonRect.bottom + 5}px`;
+          dropdown.style.left = `${buttonRect.left}px`;
+          dropdown.style.width = `${buttonRect.width}px`;
+        }
+      };
+      
+      handlePositioning();
+      window.addEventListener('resize', handlePositioning);
+      return () => window.removeEventListener('resize', handlePositioning);
+    }
+  }, [isDropdownOpen]);
+  
   return (
     <div
       ref={wrapperRef}
-      className="absolute bottom-0 top-full w-full text-gray-500"
+      className="fixed text-gray-500 z-[999]"
       id="add-new-dropdown"
+      style={{
+        position: 'fixed',
+        display: isDropdownOpen ? 'block' : 'none'
+      }}
     >
       <input
         className="hidden"
@@ -119,45 +144,45 @@ const AddNewDropdown: React.FC<AddNewDropdownProps> = ({
         className="hidden"
         ref={uploadFolderRef}
         type="file"
-        // @ts-ignore
+        // @ts-expect-error webkitdirectory is a non-standard attribute
         webkitdirectory="true"
         onChange={handleFolderUpload}
       />
       <ul
-        className={classNames("rounded-sm overflow-hidden shadow-lg animate", {
-          "h-0": !isDropdownOpen,
-          "h-[132px]": isDropdownOpen,
-        })}
+        className="rounded-md overflow-hidden shadow-xl border border-gray-200 bg-white animate transition-all duration-200 opacity-100 visible max-h-[200px]"
       >
         <li>
           <div>
-            <a
-              className="flex items-center justify-start px-5 py-3 no-underline overflow-hidden text-sm bg-white hover:bg-white-hover"
+            <button
+              type="button"
+              className="flex w-full items-center justify-start px-5 py-3 border-0 bg-white hover:bg-white-hover text-sm"
               onClick={triggerFileUpload}
             >
               <UploadFileIcon className="w-4 h-4 mr-2.5 text-primary" />
               <p className="text-sm">Upload Files</p>
-            </a>
+            </button>
           </div>
         </li>
         <li>
-          <a
-            className="flex items-center justify-start px-5 py-3 no-underline overflow-hidden text-sm bg-white hover:bg-white-hover"
+          <button
+            type="button"
+            className="flex w-full items-center justify-start px-5 py-3 border-0 bg-white hover:bg-white-hover text-sm"
             onClick={createFolder}
           >
             <CreateFolderIcon className="w-4 h-4 mr-2.5 text-primary" />
             <p className="text-sm">Create Folder</p>
-          </a>
+          </button>
         </li>
         {supportsWebkitDirectory && (
           <li>
-            <a
-              className="flex items-center justify-start px-5 py-3 no-underline overflow-hidden text-sm bg-white hover:bg-white-hover"
+            <button
+              type="button"
+              className="flex w-full items-center justify-start px-5 py-3 border-0 bg-white hover:bg-white-hover text-sm"
               onClick={triggerFolderUpload}
             >
               <FolderUploadIcon className="w-4 h-4 mr-2.5 text-primary" />
               <p className="text-sm">Upload Folder</p>
-            </a>
+            </button>
           </li>
         )}
       </ul>

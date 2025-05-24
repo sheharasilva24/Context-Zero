@@ -28,7 +28,7 @@ const MainSection = memo(() => {
 
   const { isMedia } = useUtils();
   return (
-    <div>
+    <div className="mt-14">
       <div className="flex h-full">
         {isMediaSelected && (
           <PhotoViewerPopup file={popupModalItem} key={popupModalItem._id} />
