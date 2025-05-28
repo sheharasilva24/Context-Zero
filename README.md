@@ -149,17 +149,11 @@ NODE_OPTIONS="--max-old-space-size=4096" npm run build
   ![image](https://github.com/user-attachments/assets/870cb1d3-ba87-4af6-87ab-e7d5e6f5101b)
 
 
+---
 
+🎬 Live Demo
 
-
-
-
-
-
-
-  
-
-
+["E:\Final Project\Context-Zero\Live Demo\2025-05-28 20-56-00.mkv"](url)
 
 ---
 
