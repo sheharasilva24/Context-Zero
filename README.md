@@ -1,3 +1,10 @@
+<div align="center">
+
+<a href="https://github.com/yourusername/context-zero/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/yourusername/context-zero?label=ContextZero"></a>
+<a href="https://github.com/yourusername/context-zero/issues"><img alt="Issues" src="https://img.shields.io/github/issues/yourusername/context-zero" /></a>
+<a href="https://github.com/yourusername/context-zero/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/yourusername/context-zero"></a>
+<a href="https://github.com/yourusername/context-zero/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/yourusername/context-zero" /></a>
+
 </div>
 
 <div align="center">
@@ -8,7 +15,7 @@
 
 <p>Host Context Zero on your own server and securely manage encrypted files with time-limited sharing links, multi-factor authentication, and seamless AWS S3 integration.</p>
 
-
+[Website (Coming Soon)](#) · [Live Demo (Coming Soon)](#)
 
 </div>
 
@@ -19,8 +26,6 @@
 - [Features](#features)  
 - [Tech Stack](#tech-stack)  
 - [Running the Project](#running-the-project)  
-  - [Docker Setup](#docker-setup)  
-  - [Manual Setup (Non-Docker)](#manual-setup-non-docker)  
 - [Common Installation Issues](#common-installation-issues)  
 - [Screenshots](#screenshots)  
 - [Testing](#testing)  
@@ -56,14 +61,16 @@
 
 ## 🏃 Running the Project
 
-### 🐳 Docker Setup (Recommended)
+### Requirements:
+- Node.js v20+  
+- MongoDB (local or managed service like Atlas)  
+- AWS S3 credentials (optional, if using cloud storage)  
+- FFMPEG (optional, for video thumbnail generation)
 
-> Requirements: Docker, Docker Compose
+### Steps to Run:
 
-1. Copy the provided `.env.example` and `docker-compose.yml` to your working directory.  
-2. Rename `.env.example` to `.env` and update the configuration values as needed (MongoDB URI, JWT secrets, AWS credentials, etc.).  
-3. Start the services:
+1. Install the dependencies:
 
 ```bash
-docker compose up -d
+npm i
 
