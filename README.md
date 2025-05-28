@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# ☁️ Context Zero
+# Context Zero
 
 <strong>Secure, Scalable Cloud File Storage with AES-256 Encryption, JWT, and MFA</strong>
 
