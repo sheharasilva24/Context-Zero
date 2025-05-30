@@ -40,7 +40,7 @@ const sendPasswordResetEmail = async (
     const mailOptions = {
       from: emailAddress,
       to: user.email,
-      subject: "myDrive Password Reset",
+      subject: "Context Zero Password Reset",
       text:
         "Please navigate to the following link to reset your password: " + url,
     };
